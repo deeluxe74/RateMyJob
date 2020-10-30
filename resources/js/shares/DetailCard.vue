@@ -6,15 +6,15 @@
         <div class="forme bg-black d-flex flex-row justify-content-between align-items-start">
             <div class="d-flex flex-row align-items-center">
                 <img src="/img/svg/heart.svg" alt="Nombre de like">
-                <div>
-                    <h2>103</h2>
+                <div class="ml-1">
+                    <h2>{{ card.like }}</h2>
                 </div>
             </div>
             <h3 class="align-self-center mt-3">30%</h3>
             <div class="d-flex flex-row align-items-center">
                 <img src="/img/svg/heart-empty.svg" alt="Nombre de dislike">
-                <div>
-                    <h2>108</h2>
+                <div class="ml-1">
+                    <h2>{{ card.dislike }}</h2>
                 </div>
             </div>
         </div>
@@ -24,6 +24,11 @@
             <div class="circle bg-pink-flash"></div>
             <div class="circle bg-white"></div>
             <div class="circle bg-white"></div>
+        </div>
+
+        <div class="align-center py-3" v-if="card.description">
+            <h2>Description</h2>
+            <p class="desc">{{ card.description }}</p>
         </div>
 
         <div class="d-flex flex-column talk bg-pink-flash p-3">
@@ -42,7 +47,7 @@
 
 <script>
 export default {
-
+    props: ['card'],
 }
 </script>
 
@@ -57,6 +62,10 @@ h2 {
 
 img {
     width: 3rem;
+}
+
+.desc {
+    font-size: 1.2rem;
 }
 
 .name {
@@ -84,7 +93,7 @@ img {
 
 .illustation {
     position: relative;
-    top: 8vh;
+    top: 7vh;
     width: 100%;
 }
 

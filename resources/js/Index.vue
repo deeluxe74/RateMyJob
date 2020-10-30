@@ -1,6 +1,6 @@
 <template>
     <div>
-        <nav-bar class="height"></nav-bar>
+        <nav-bar></nav-bar>
         <router-view></router-view>
     </div>
 </template>
@@ -24,7 +24,10 @@ body, html {
     font-family: 'Junior', fantasy;
     background-color: #8B0026;
     width: 100vw;
-    min-height: 100vh;
+}
+
+body {
+    min-height: 87vh;
 }
 
 h2 {
@@ -65,5 +68,9 @@ p {
 
 .full-margin {
     margin-top: 13vh;
+}
+
+.align-center {
+    text-align: center;
 }
 </style>

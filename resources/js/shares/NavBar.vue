@@ -1,11 +1,11 @@
 <template>
-    <div class="max-width">
+    <div>
         <div class="head bg-black pt-2 pb-3 px-2">
-            <img class="item1" src="/img/svg/burn.svg" alt="Les plus populaires">
+            <router-link class="item1" :to="{name: 'CardList'}"><img  src="/img/svg/burn.svg" alt="Les plus populaires"></router-link>
             <div class="item2 d-flex align-items-end">
                 <h2 class="m-0">BetterChoice</h2>
             </div>
-            <img class="item3" src="/img/svg/new.svg" alt="Crée un post">
+            <router-link class="item3" :to="{name: 'Post'}"><img  src="/img/svg/new.svg" alt="Crée un post"></router-link>
         </div>
     </div>
 </template>
@@ -22,17 +22,12 @@ img {
     width: 50px;
 }
 
-.max-width {
-    max-width: 100vw;
-    overflow: hidden;
-}
-
 .head {
     z-index: 10;
     position: absolute;
     top: 0;
-    left: -5%;
-    width: 110%;
+    left: 0;
+    width: 100vw;
     height: 13vh;
     display: grid;
     grid-template: auto / 25% 50% 25%;
