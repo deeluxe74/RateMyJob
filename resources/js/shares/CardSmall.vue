@@ -1,7 +1,9 @@
 <template>
-    <div class="card-small" v-if="!display">
-        <div class="mt-3 frame-illustration">
-            <img class="illustation" src="/img/svg/exemple.jpg" alt="Illustration de la demande">
+    <div class="card-small" v-if="!display" :class="index === 0 ? 'full-margin' : 'mt-3'">
+        <div v-if="!load" class="mt-3 frame-illustration">
+            <transition name="slide" mode="out-in">
+                <img class="illustration" @click="swapPic(index)" v-if="active === index" v-for="(picture, index) in pictures" :src="picture.url" alt="Illustration de la demande" :key="'picture' + index">
+            </transition>
         </div>
         <div class="forme bg-black d-flex flex-row justify-content-between align-items-start">
             <div class="d-flex flex-row align-items-center">
@@ -21,7 +23,7 @@
     </div>
 
     <div v-else>
-        <detail-card :card="card"></detail-card>
+        <detail-card :card="card" :pictures="pictures"></detail-card>
     </div>
 </template>
 
@@ -29,14 +31,38 @@
 import DetailCard from './DetailCard';
 
 export default {
-    props: ['card'],
+    props: ['card', 'index'],
     components: {
         DetailCard,
     },
     data() {
         return {
             display: false,
+            pictures: null,
+            load: true,
+            active: 0,
         }
+    },
+    methods: {
+        swapPic(index) {
+            if(this.pictures.length === 1){
+                return;
+            }
+            else if(index < (this.pictures.length - 1)){
+                this.active += 1;
+            }else {
+                this.active -= 1;
+            }
+        },
+    },
+    created(){
+        this.load = true;
+        axios.post('/api/get/pictures', {
+            id: this.card.id
+        }).then((response) => {
+            this.pictures = response.data.pictures;
+        })
+        this.load = false;
     }
 }
 </script>
@@ -70,17 +96,17 @@ img {
 .frame-illustration {
     box-shadow: 9px 8px 15px 0px #000000b7;
     border-radius: 20px 20px 0 0;
-    height: 35vh;
+    height: 30vh;
     width: 90vw;
     overflow: hidden;
     transform-origin: bottom;
 }
 
-.illustation {
+.illustration {
     position: relative;
     top: -10vh;
-    width: 90vw;
+    min-height: 40vh;
+    min-width: 90vw;
 }
-
 
 </style>

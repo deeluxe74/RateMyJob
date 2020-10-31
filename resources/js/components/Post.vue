@@ -147,12 +147,4 @@ img {
     color: white;
     width: 70vw;
 }
-
-.appear-enter-active, .appear-leave-active {
-    transition: all 400ms linear;
-}
-
-.appear-enter, .appear-leave-to {
-    opacity: 0;
-}
 </style>

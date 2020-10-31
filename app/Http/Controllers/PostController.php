@@ -32,6 +32,26 @@ class PostController extends Controller
 
     public function getCards() {
         $cards = Post::orderBy('created_at', 'ASC')->get();
+        foreach ($cards as $card) {
+            $card['like'] = round(intval($card['like']), 2);
+            $card['dislike'] = round(intval($card['dislike']),2);
+        }
         return response()->json(['cards' => $cards]);
+    }
+
+    public function like(Request $request){
+        $post = Post::where('id', $request->id)->first();
+
+        $post->like = $post->like + 1;
+        $post->save();
+        return true;
+    }
+
+    public function dislike(Request $request){
+        $post = Post::where('id', $request->id)->first();
+
+        $post->dislike = $post->dislike + 1;
+        $post->save();
+        return true;
     }
 }

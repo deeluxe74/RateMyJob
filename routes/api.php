@@ -8,4 +8,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::post('post/new', 'PostController@createNew');
+
 Route::get('get/card/all', 'PostController@getCards');
+
+Route::post('get/pictures', 'PictureController@getPictures');
+
+Route::post('set/like', 'PostController@like');
+Route::post('set/dislike', 'PostController@dislike');

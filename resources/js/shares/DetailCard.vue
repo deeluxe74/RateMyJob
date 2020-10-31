@@ -1,29 +1,32 @@
 <template>
     <div>
         <div class="frame-illustration">
-            <img class="illustation" src="/img/svg/exemple.jpg" alt="Illustration de la demande">
+            <transition name="slide" mode="out-in">
+                <img v-if="active === index" v-for="(picture, index) in pictures" class="illustation" :src="pictures[index].url" alt="Illustration de la demande" :key="'picture' + index">
+            </transition>
         </div>
         <div class="forme bg-black d-flex flex-row justify-content-between align-items-start">
-            <div class="d-flex flex-row align-items-center">
+            <div @click="likeOrDislike('like')" class="d-flex flex-row align-items-center">
                 <img src="/img/svg/heart.svg" alt="Nombre de like">
                 <div class="ml-1">
-                    <h2>{{ card.like }}</h2>
+                    <transition name="numUp" mode="out-in">
+                        <h2 :key="card.like">{{ card.like }}</h2>
+                    </transition>
                 </div>
             </div>
-            <h3 class="align-self-center mt-3">30%</h3>
-            <div class="d-flex flex-row align-items-center">
+            <h3 class="align-self-center mt-3">{{ card.like > 0 ? Math.round(card.like / (card.like + card.dislike) * 100) : 0 }}%</h3>
+            <div @click="likeOrDislike('dislike')" class="d-flex flex-row align-items-center">
                 <img src="/img/svg/heart-empty.svg" alt="Nombre de dislike">
                 <div class="ml-1">
-                    <h2>{{ card.dislike }}</h2>
+                    <transition name="numUp" mode="out-in">
+                        <h2 :key="card.dislike">{{ card.dislike }}</h2>
+                    </transition>
                 </div>
             </div>
         </div>
 
         <div class="d-flex flex-row justify-content-center">
-            <div class="circle bg-white"></div>
-            <div class="circle bg-pink-flash"></div>
-            <div class="circle bg-white"></div>
-            <div class="circle bg-white"></div>
+            <div v-for="(picture, index) in pictures" @click="active = index" :class="isActive(index)" class="circle" :key="'element' + index"></div>
         </div>
 
         <div class="align-center py-3" v-if="card.description">
@@ -47,7 +50,40 @@
 
 <script>
 export default {
-    props: ['card'],
+    props: ['card', 'pictures'],
+    data() {
+        return {
+            active: 0,
+        }
+    },
+    methods: {
+        isActive(index) {
+            if(index === this.active){
+                return 'bg-pink-flash';
+            }else {
+                return 'bg-white';
+            }
+        },
+        likeOrDislike(isLike) {
+            if(isLike === 'like') {
+                axios.post('api/set/like', {
+                    id: this.card.id,
+                }).then((response) => {
+                    if(response.data) {
+                        this.card.like +=1;
+                    }
+                })
+            }else {
+                axios.post('api/set/dislike', {
+                    id: this.card.id,
+                }).then((response) => {
+                    if(response.data) {
+                        this.card.dislike +=1;
+                    }
+                })
+            }
+        }
+    }
 }
 </script>
 
@@ -104,5 +140,29 @@ img {
     border-bottom-left-radius: 200px 120%;
     border-bottom-right-radius: 200px 120%;
     padding: 4% 10%;
+}
+
+.alert-success {
+    border: none;
+    color: white;
+    width: 70vw;
+}
+
+.numUp-leave-to {
+    animation: flip-in-ver-left 500ms cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+
+@keyframes flip-in-ver-left {
+    0% {
+        transform: rotateY(0deg);
+        filter: blur(0px);
+    }
+    70% {
+        filter: blur(6px);
+    }
+    100% {
+        transform: rotateY(360deg);
+        filter: blur(0px);
+    }
 }
 </style>

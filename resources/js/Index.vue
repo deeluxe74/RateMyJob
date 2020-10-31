@@ -73,4 +73,22 @@ p {
 .align-center {
     text-align: center;
 }
+
+.slide-enter-active, .slide-leave-active {
+    transition: all 250ms linear;
+}
+
+.slide-enter, .slide-leave-to {
+    opacity: 0.3;
+    transform: scale(1.8);
+    filter: blur(7px);
+}
+
+.appear-enter-active, .appear-leave-active {
+    transition: all 400ms linear;
+}
+
+.appear-enter, .appear-leave-to {
+    opacity: 0;
+}
 </style>

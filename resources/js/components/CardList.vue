@@ -3,7 +3,8 @@
         <div class="d-flex flex-column justify-content-center align-items-center">
             <card-small v-for="(card, index) in cards" 
                 :key="'card ' + index"
-                :card="card">
+                :card="card"
+                :index="index">
             </card-small>
         </div>
     </div>
@@ -32,5 +33,7 @@ export default {
 </script>
 
 <style scoped>
-
+.full-margin {
+    margin-top: 15vh;
+}
 </style>
