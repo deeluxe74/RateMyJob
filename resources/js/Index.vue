@@ -1,7 +1,9 @@
 <template>
     <div>
         <nav-bar></nav-bar>
-        <router-view></router-view>
+        <transition name="appear" mode="out-in">
+            <router-view key="1"></router-view>
+        </transition>
     </div>
 </template>
 
@@ -50,8 +52,17 @@ p {
     margin: 0;
 }
 
+.height-100 {
+    min-height: 100vh;
+}
+
+.cl-black {
+    font-weight: 900;
+    color: #131313;
+}
+
 .bg-black {
-    background-color: #2B2B2B;
+    background-color: #1d1d1d;
 }
 
 .bg-pink {
@@ -75,12 +86,21 @@ p {
 }
 
 .slide-enter-active, .slide-leave-active {
-    transition: all 250ms linear;
+    transition: all 250ms ease-in;
 }
 
 .slide-enter, .slide-leave-to {
-    opacity: 0.3;
+    opacity: 0.6;
     transform: scale(1.8);
+    filter: blur(3px);
+}
+
+.popUp-enter-active, .popUp-leave-active {
+    transition: all 1s ease-in;
+}
+
+.popUp-enter, .popUp-leave-to {
+    transform: translateY(-100vh);
     filter: blur(7px);
 }
 
@@ -91,4 +111,5 @@ p {
 .appear-enter, .appear-leave-to {
     opacity: 0;
 }
+
 </style>

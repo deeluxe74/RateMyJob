@@ -1,10 +1,10 @@
 <template>
     <div class="full-margin">
         <prompt-valide v-if="postSend"></prompt-valide>
-        <form @submit="send">
+        <form @submit.prevent="send">
             <br>
             <transition name="appear" mode="out-in" appear>
-                <div v-if="error" class="alert alert-info">Une erreur est survenue, veuillez remplir correctement les champs.</div>
+                <div v-if="error" class="alert alert-info">{{ error }}</div>
             </transition>
             <div class="champ px-3 d-flex flex-column align-items-end">
                 <input required v-model="author" placeholder="Créateur" type="text" class="align-self-start px-2 bg-pink-flash">
@@ -16,9 +16,14 @@
             </div>
             
             <div class="bloc-post bg-pink-flash mt-5">
-                <button type="submit" class="d-flex justify-content-center align-items-center forme bg-black">
+                <button v-if="!loadSend" type="submit" class="d-flex justify-content-center align-items-center forme bg-black">
                     <h2>POSTER</h2>
                 </button>
+                <div v-else class="d-flex justify-content-center align-items-center forme bg-black">
+                    <div class="spinner-border text-danger" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
                 <div class="my-4 mx-3">
                     <p>
                         Poster jusqu'à 3 images, grace a cela vous n'aurez plus de doute sur votre choix !
@@ -47,10 +52,12 @@ export default {
             author: null,
             pictures: [],
             postSend: false,
+            loadSend: false,
         }
     },
     methods: {
         send() {
+            this.loadSend = true;
             axios.post('/api/post/new',
             {   
                 author: this.author,
@@ -58,10 +65,13 @@ export default {
                 pictures: this.pictures,
             }
             ).then((response) => {
-                if(response.data){
-                    this.postSend = true;
+                this.loadSend = false;
+                if(response.data.error){
+                    this.error = response.data.message;
                 }else {
-                    this.error = true;
+                    this.error = false;
+                    this.pictures = [];
+                    this.postSend = true;
                 }
             })
         },
@@ -89,12 +99,14 @@ button {
 }
 
 textarea {
+    color: white;
     border: none;
     width: 80vw;
     border-radius: 15px;
 }
 
 input {
+    color: white;
     border: none;
     width: 65vw;
     border-radius: 10px;

@@ -13,8 +13,6 @@ class CreatePostsTable extends Migration
             $table->id();
             $table->string('author');
             $table->string('description');
-            $table->string('like');
-            $table->string('dislike');
             $table->timestamps();
         });
     }

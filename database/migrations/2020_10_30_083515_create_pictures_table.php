@@ -12,6 +12,8 @@ class CreatePicturesTable extends Migration
             $table->id();
             $table->integer('post_id');
             $table->string('url');
+            $table->integer('like');
+            $table->integer('dislike');
             $table->timestamps();
         });
     }

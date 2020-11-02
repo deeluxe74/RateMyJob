@@ -1,30 +1,33 @@
 <template>
-    <div class="card-small" v-if="!display" :class="index === 0 ? 'full-margin' : 'mt-3'">
-        <div v-if="!load" class="mt-3 frame-illustration">
-            <transition name="slide" mode="out-in">
-                <img class="illustration" @click="swapPic(index)" v-if="active === index" v-for="(picture, index) in pictures" :src="picture.url" alt="Illustration de la demande" :key="'picture' + index">
-            </transition>
-        </div>
-        <div class="forme bg-black d-flex flex-row justify-content-between align-items-start">
-            <div class="d-flex flex-row align-items-center">
-                <img src="/img/svg/heart.svg" alt="Nombre de like">
-                <div class="ml-1">
-                    <h2>{{ card.like }}</h2>
+    <transition name="popUp" v-if="!load">
+        <div key="1" class="card-small" v-if="!display" :class="index === 0 ? 'full-margin' : 'mt-3'">
+            <div v-if="!load" class="mt-3 frame-illustration">
+                <transition name="slide" mode="out-in">
+                    <img class="illustration" @click="swapPic(index)" v-if="active === index" v-for="(picture, index) in pictures" :src="picture.url" alt="Illustration de la demande" :key="'picture' + index">
+                </transition>
+            </div>
+            <div class="forme bg-black d-flex flex-row justify-content-between align-items-start">
+                <div class="d-flex flex-row align-items-center">
+                    <img src="/img/svg/heart.svg" alt="Nombre de like">
+                    <div class="ml-1">
+                        <h2>{{ card.like }}</h2>
+                    </div>
+                </div>
+                <img @click="display = !display" class="vote active hover" src="/img/svg/vote.svg" alt="Voter pour votre choix">
+                <div class="d-flex flex-row align-items-center">
+                    <img src="/img/svg/chat.svg" alt="Nombre de commentaire">
+                    <div class="ml-1">
+                        <h2>{{ commentsNum }}</h2>
+                    </div>
                 </div>
             </div>
-            <img @click="display = !display" class="vote active hover" src="/img/svg/vote.svg" alt="Voter pour votre choix">
-            <div class="d-flex flex-row align-items-center">
-                <img src="/img/svg/chat.svg" alt="Nombre de commentaire">
-                <div class="ml-1">
-                    <h2>{{ card.dislike }}</h2>
-                </div>
-            </div>
         </div>
-    </div>
+        
+        <div key="2" class="prompt-detail" v-else> 
+            <detail-card @commentUp="getCommentsNum" @closeWindow="closeWindow" :card="card" :pictures="pictures"></detail-card>
+        </div>
+    </transition>
 
-    <div v-else>
-        <detail-card :card="card" :pictures="pictures"></detail-card>
-    </div>
 </template>
 
 <script>
@@ -40,6 +43,7 @@ export default {
             display: false,
             pictures: null,
             load: true,
+            commentsNum: null,
             active: 0,
         }
     },
@@ -54,6 +58,17 @@ export default {
                 this.active -= 1;
             }
         },
+        closeWindow(value) {
+            this.display = value;
+        },
+        getCommentsNum() {
+            axios.post('/api/get/commentsNum', {
+            id: this.card.id
+            }).then((response) => {
+                this.commentsNum = response.data.commentsNum;
+                this.load = false;
+            })
+        }
     },
     created(){
         this.load = true;
@@ -61,8 +76,8 @@ export default {
             id: this.card.id
         }).then((response) => {
             this.pictures = response.data.pictures;
-        })
-        this.load = false;
+        });
+        this.getCommentsNum();
     }
 }
 </script>
@@ -104,9 +119,15 @@ img {
 
 .illustration {
     position: relative;
-    top: -10vh;
-    min-height: 40vh;
+    top: 0vh;
+    min-height: 30vh;
     min-width: 90vw;
 }
 
+.prompt-detail {
+    position: absolute;
+    z-index: 5;
+    top: 0;
+    left: 0;
+}
 </style>
