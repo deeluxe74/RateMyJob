@@ -10,7 +10,7 @@
                 <input required v-model="author" placeholder="Créateur" type="text" class="align-self-start px-2 bg-pink-flash">
                 <textarea required v-model="description" placeholder="Description" class="px-2 bg-pink-flash mt-4" rows="5"></textarea>
                 
-                <input v-for="(n, index) in count" v-model="pictures[index]" required placeholder="Image (url direct)" type="text" class="px-2 bg-pink-flash mt-4" :key="'input' + index">
+                <input v-for="(n, index) in count" v-model="pictures[index]" placeholder="Image (url direct)" type="text" class="px-2 bg-pink-flash mt-4" :key="'input' + index">
                 
                 <img v-if="count < 3" @click="otherPicture" class="mt-4 mr-2" src="/img/svg/new.svg" alt="Ajouter une photo supplémentaire">
             </div>
@@ -58,22 +58,34 @@ export default {
     methods: {
         send() {
             this.loadSend = true;
-            axios.post('/api/post/new',
-            {   
-                author: this.author,
-                description: this.description,
-                pictures: this.pictures,
-            }
-            ).then((response) => {
-                this.loadSend = false;
-                if(response.data.error){
-                    this.error = response.data.message;
-                }else {
-                    this.error = false;
-                    this.pictures = [];
-                    this.postSend = true;
+            this.pictures.forEach((item, index, object) => {
+                 if (item === '') {
+                    object.splice(index, 1);
                 }
-            })
+            });
+            if(this.pictures.length < 1){
+                this.error = "Vous devez poster un lien vers une image minimun.";
+                this.pictures = [];
+                this.loadSend = false;
+            }else {
+                axios.post('/api/post/new',
+                    {   
+                        author: this.author,
+                        description: this.description,
+                        pictures: this.pictures,
+                    }
+                    ).then((response) => {
+                        this.loadSend = false;
+                        if(response.data.error){
+                            this.error = response.data.message;
+                        }else {
+                            this.error = false;
+                            this.pictures = [];
+                            this.postSend = true;
+                        }
+                    })
+            }
+            
         },
         otherPicture() {
             if(this.count < 3){
@@ -101,14 +113,14 @@ button {
 textarea {
     color: white;
     border: none;
-    width: 80vw;
+    width: 80%;
     border-radius: 15px;
 }
 
 input {
     color: white;
     border: none;
-    width: 65vw;
+    width: 55%;
     border-radius: 10px;
     height: 3rem;
 }
@@ -147,6 +159,7 @@ img {
 }
 
 .bloc-post {
+    overflow: hidden;
     height: 40vh;
     position: fixed;
     bottom: 0;
@@ -157,6 +170,6 @@ img {
     background-color: red;
     border: none;
     color: white;
-    width: 70vw;
+    width: 70%;
 }
 </style>

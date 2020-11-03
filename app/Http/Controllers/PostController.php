@@ -39,7 +39,7 @@ class PostController extends Controller
     }
 
     public function getCards() {
-        $cards = Post::orderBy('created_at', 'ASC')->get();
+        $cards = Post::orderBy('created_at', 'desc')->get();
         foreach ($cards as $card) {
             $like = 0;
             $dislike = 0;

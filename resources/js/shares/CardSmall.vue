@@ -1,7 +1,7 @@
 <template>
-    <transition name="popUp" v-if="!load">
-        <div key="1" class="card-small" v-if="!display" :class="index === 0 ? 'full-margin' : 'mt-3'">
-            <div v-if="!load" class="mt-3 frame-illustration">
+    <transition name="appear" appear>
+        <div v-if="!load" class="card-small" :class="[index === 0 ? 'full-margin' : 'mt-3', display ? '' : 'swipe-out']">
+            <div class="mt-2 frame-illustration">
                 <transition name="slide" mode="out-in">
                     <img class="illustration" @click="swapPic(index)" v-if="active === index" v-for="(picture, index) in pictures" :src="picture.url" alt="Illustration de la demande" :key="'picture' + index">
                 </transition>
@@ -22,25 +22,20 @@
                 </div>
             </div>
         </div>
-        
-        <div key="2" class="prompt-detail" v-else> 
-            <detail-card @commentUp="getCommentsNum" @closeWindow="closeWindow" :card="card" :pictures="pictures"></detail-card>
-        </div>
     </transition>
-
 </template>
 
 <script>
 import DetailCard from './DetailCard';
 
 export default {
-    props: ['card', 'index'],
+    props: ['card', 'index', 'displaySmall'],
     components: {
         DetailCard,
     },
     data() {
         return {
-            display: false,
+            display: true,
             pictures: null,
             load: true,
             commentsNum: null,
@@ -63,11 +58,28 @@ export default {
         },
         getCommentsNum() {
             axios.post('/api/get/commentsNum', {
-            id: this.card.id
+                id: this.card.id
             }).then((response) => {
                 this.commentsNum = response.data.commentsNum;
                 this.load = false;
             })
+        }
+    },
+    watch: {
+        display(value){
+            if(!value){
+                setTimeout(() => {
+                    this.$emit('displayChange', {
+                        card : this.card,
+                        pictures : this.pictures,
+                    });
+                }, 350);
+            }
+        },
+        displaySmall(value){
+            if(value){
+                this.display = true;
+            }
         }
     },
     created(){
@@ -96,8 +108,10 @@ img {
 }
 
 .card-small {
+    transition: all 700ms ease-out;
     width: 90vw;
 }
+
 
 .forme {
     box-shadow: 9px 8px 15px 0px #000000b7;
@@ -112,7 +126,7 @@ img {
     box-shadow: 9px 8px 15px 0px #000000b7;
     border-radius: 20px 20px 0 0;
     height: 30vh;
-    width: 90vw;
+    width: 100%;
     overflow: hidden;
     transform-origin: bottom;
 }
@@ -121,7 +135,7 @@ img {
     position: relative;
     top: 0vh;
     min-height: 30vh;
-    min-width: 90vw;
+    min-width: 100%;
 }
 
 .prompt-detail {

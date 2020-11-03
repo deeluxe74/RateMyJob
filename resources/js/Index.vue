@@ -1,9 +1,11 @@
 <template>
-    <div>
-        <nav-bar></nav-bar>
-        <transition name="appear" mode="out-in">
-            <router-view key="1"></router-view>
-        </transition>
+    <div class="container-desktop">
+        <div class="container-app">
+            <nav-bar></nav-bar>
+            <transition name="appear" mode="out-in">
+                <router-view key="1"></router-view>
+            </transition>
+        </div>
     </div>
 </template>
 
@@ -96,7 +98,7 @@ p {
 }
 
 .popUp-enter-active, .popUp-leave-active {
-    transition: all 1s ease-in;
+    transition: all 700ms ease-out;
 }
 
 .popUp-enter, .popUp-leave-to {
@@ -112,4 +114,103 @@ p {
     opacity: 0;
 }
 
+.slide-out-in-enter-active, .slide-out-in-leave-active {
+    transition: all 600ms ease-out;
+}
+
+.slide-out-in-enter {
+    transform: translateY(-50vh);
+    filter: blur(7px);
+}
+.slide-out-in-leave-to {
+    transform: translateY(50vh);
+    filter: blur(7px);
+}
+
+.slide-out-in-reverse-enter-active, .slide-out-in-reverse-leave-active {
+    transition: all 600ms ease-out;
+}
+.slide-out-in-reverse-leave-to {
+    transform: translateY(-100vh);
+    filter: blur(7px);
+}
+.slide-out-in-reverse-enter {
+    transform: translateY(50vh);
+    filter: blur(7px);
+}
+
+.swipe-out {
+    animation: swipe-out 500ms forwards linear;
+}
+.swipe-in {
+    animation: swipe-in 500ms forwards linear;
+}
+
+@keyframes swipe-out {
+    0% {
+        transform: translateY(0vh);
+        filter: blur(0px);  
+    }
+    99% {
+        transform: translateY(-100vh);
+        filter: blur(7px);
+    }
+    100% {
+        transform: scale(0);
+    }
+}
+@keyframes swipe-in {
+    0% {
+        transform: translateY(-100vh);
+        filter: blur(7px);
+        transform: scale(0);  
+    }
+    1% {
+        transform: scale(1);
+    }
+    100% {
+        transform: translateY(0vh);
+        filter: blur(0px);
+    }
+}
+
+/* Media Queries */
+
+@media screen and (min-width: 480px){
+    body, html {
+        background-color: #520016!important;
+    }
+    .container-app {
+        position: relative;
+        width: 480px;
+        background-color: #8B0026;
+        height: 100%;
+        box-shadow: 0px 0px 31px 0px rgba(0,0,0,0.75);
+    }
+
+    .container-desktop {
+        display: flex;
+        justify-content: center;
+        background-color: #520016;
+        width: 100vw;
+        height: 100vh;
+    }
+
+    .card-small {
+        width: 400px!important;
+    }
+
+    .talk {
+        width: 480px!important;
+    }
+
+    .circle {
+        width: 55px!important;
+        height: 55px!important;
+    }
+
+    .bloc-post {
+        width: 480px;
+    }
+}
 </style>

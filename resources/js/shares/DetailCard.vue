@@ -1,5 +1,5 @@
 <template>
-    <div v-if="!load" class="height-100 bg-pink d-flex flex-column">
+    <div v-if="!load" class="global height-100 bg-pink d-flex flex-column">
         <transition name="appear" mode="out-in" >
             <div v-if="message" :key="message" class="message-error alert alert-info">
                 {{ message }}
@@ -35,12 +35,12 @@
             <div v-for="(picture, index) in pictures" @click="active = index" :class="isActive(index)" class="circle" :key="'element' + index"></div>
         </div>
 
-        <div class="author mx-2" v-if="card.description">
+        <div class="mt-2 author mx-2" v-if="card.description">
             <h2><span class="cl-black">Créateur :</span> {{ card.author }}</h2>
         </div>
 
         <div class="bloc-desc align-center py-2" v-if="card.description">
-            <h2>Description</h2>
+            <h2 class="mb-2">Description</h2>
             <p class="desc px-3">{{ card.description }}</p>
         </div>
 
@@ -51,7 +51,7 @@
             </div>
             <transition name="appear" mode="out-in">
                 <div class="d-flex flex-column justify-content-between align-items-end" v-if="displayTalk">
-                    <transition-group name="appear" mode="out-in" class="d-flex flex-column align-items-end">
+                    <transition-group name="appear" mode="out-in" class="d-flex flex-column align-items-end position-relative w-100">
                         <div v-for="(comment, index) in comments" :key="'comment' + index" class="message bg-pink px-3 py-2 my-2">
                             <h4 class="name">{{ comment.author }}</h4>
                             <p>{{ comment.comment }}</p>
@@ -165,6 +165,14 @@ export default {
         },
         closeWindow() {
             this.$emit('closeWindow', false);
+        },
+        getCommentsNum() {
+            axios.post('/api/get/commentsNum', {
+                id: this.card.id
+            }).then((response) => {
+                this.commentsNum = response.data.commentsNum;
+                this.load = false;
+            })
         }
     },
     computed: {
@@ -200,6 +208,12 @@ button {
     color: white;
 }
 
+.global {
+    position: relative;
+    width: 100%;
+    max-width: 480px;
+}
+
 .btn {
     font-family: 'Hobo Std', fantasy;
     font-size: 1.3rem
@@ -224,7 +238,7 @@ button {
 
 .message {
     border-radius: 15px;
-    max-width: 80vw;
+    max-width: 85%;
     width: max-content;
 }
 
@@ -237,7 +251,7 @@ button {
 
 .frame-illustration {
     overflow: hidden;
-    width: 100vw;
+    width: 100%;
     max-height: 80vh;
 }
 
@@ -258,7 +272,7 @@ button {
     position: relative;
     top: 7vh;
     height: 40vh;
-    width: auto;
+    min-width: 100%;
     max-width: 120%;
 }
 
@@ -273,14 +287,15 @@ button {
 }
 
 .talk {
-    width: 100vw;
+    width: inherit;
     overflow: scroll;
     transition: all 500ms linear;
     bottom: 0;
-    height: 7.5vh;
+    height: 4rem;
     position: fixed;
     transform-origin: 0 100%;
 }
+
 .height-up {
     box-shadow: -9px -8px 15px 0px #000000b7;
     height: calc(0.9*50% + 0.1*20em);
@@ -288,14 +303,14 @@ button {
 
 input {
     border: none;
-    width: 35vw;
+    width: 43%;
     border-radius: 10px;
     height: 2rem;
 }
 
 textarea {
     border: none;
-    width: 70vw;
+    width: 80%;
     border-radius: 15px;
     box-shadow: 0px 3px 3px 3px #0000002d;
 }input::placeholder,textarea::placeholder {
@@ -317,18 +332,18 @@ textarea {
     z-index: 200;
 }
 
-.alert-success {
-    border: none;
-    color: white;
-    width: 70vw;
-}
-
 .alert-info {
     background-color: red;
     border: none;
     font-size: 1rem;
     color: white;
-    width: 60vw;
+    width: 60%;
+}
+
+.btn-info {
+    padding: 0.2rem 0.5rem;
+    background-color: #ffffff;
+    color: #FF0146;
 }
 
 .numUp-leave-to {

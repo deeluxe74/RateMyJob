@@ -27,7 +27,7 @@ img {
     position: absolute;
     top: 0;
     left: 0;
-    width: 100vw;
+    width: 100%;
     height: 13vh;
     display: grid;
     grid-template: auto / 25% 50% 25%;
