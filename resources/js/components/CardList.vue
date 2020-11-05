@@ -15,8 +15,8 @@
                 <detail-card key="3" v-else class="detail-card" @closeWindow="closeWindow" :card="card" :pictures="pictures"></detail-card>
             </transition>
         </div>
-        <div :class="displayCircle ? 'opacity-1' : ''" v-if="display < cards.length" class="circle align-center"> 
-            <img @click="moreCard" src="/img/svg/more.svg" alt="Voir deux élements de plus">
+        <div :class="displayCircle ? 'opacity-1' : ''" v-if="display < cards.length" class="circle-bloc align-center"> 
+            <img class="pointer hover" @click="moreCard" src="/img/svg/more.svg" alt="Voir deux élements de plus">
         </div>
         <br v-else>
     </div>
@@ -92,7 +92,7 @@ export default {
     margin-top: 15vh;
 }
 
-.circle {
+.circle-bloc {
     transition: all 200ms linear;
     opacity: 0;
 }

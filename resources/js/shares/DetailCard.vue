@@ -32,7 +32,7 @@
         </div>
 
         <div class="d-flex flex-row justify-content-center">
-            <div v-for="(picture, index) in pictures" @click="active = index" :class="isActive(index)" class="circle" :key="'element' + index"></div>
+            <div v-for="(picture, index) in pictures" @click="active = index" :class="isActive(index)" class="hover pointer circle" :key="'element' + index"></div>
         </div>
 
         <div class="mt-2 author mx-2" v-if="card.description">
@@ -44,8 +44,8 @@
             <p class="desc px-3">{{ card.description }}</p>
         </div>
 
-        <div :class="displayTalk ? 'height-up' : ''" class="talk bg-pink-flash p-3">
-            <div @click="displayTalk = !displayTalk" class="d-flex flex-row align-items-center">
+        <div :class="displayTalk ? 'height-up scroll' : 'hidden'" class="talk bg-pink-flash p-3">
+            <div @click="displayTalk = !displayTalk" class="d-flex flex-row align-items-center pointer">
                 <img class="mr-2" src="/img/svg/chat.svg" alt="Nombre de commentaire">
                 <h4>Commentaires</h4>
             </div>
@@ -286,9 +286,15 @@ button {
     padding: 4% 10%;
 }
 
+.scroll {
+    overflow: scroll;
+}
+.hidden {
+    overflow: hidden;
+}
+
 .talk {
     width: inherit;
-    overflow: scroll;
     transition: all 500ms linear;
     bottom: 0;
     height: 4rem;

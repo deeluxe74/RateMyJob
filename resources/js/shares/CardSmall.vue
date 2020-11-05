@@ -3,19 +3,19 @@
         <div v-if="!load" class="card-small" :class="[index === 0 ? 'full-margin' : 'mt-3', display ? '' : 'swipe-out']">
             <div class="mt-2 frame-illustration">
                 <transition name="slide" mode="out-in">
-                    <img class="illustration" @click="swapPic(index)" v-if="active === index" v-for="(picture, index) in pictures" :src="picture.url" alt="Illustration de la demande" :key="'picture' + index">
+                    <img class="illustration hover pointer" @click="swapPic(index)" v-if="active === index" v-for="(picture, index) in pictures" :src="picture.url" alt="Illustration de la demande" :key="'picture' + index">
                 </transition>
             </div>
             <div class="forme bg-black d-flex flex-row justify-content-between align-items-start">
                 <div class="d-flex flex-row align-items-center">
-                    <img src="/img/svg/heart.svg" alt="Nombre de like">
+                    <img class="heartbeat" src="/img/svg/heart.svg" alt="Nombre de like">
                     <div class="ml-1">
                         <h2>{{ card.like }}</h2>
                     </div>
                 </div>
-                <img @click="display = !display" class="vote active hover" src="/img/svg/vote.svg" alt="Voter pour votre choix">
+                <img @click="display = !display" class="vote active hover pointer" src="/img/svg/vote.svg" alt="Voter pour votre choix">
                 <div class="d-flex flex-row align-items-center">
-                    <img src="/img/svg/chat.svg" alt="Nombre de commentaire">
+                    <img class="jello" src="/img/svg/chat.svg" alt="Nombre de commentaire">
                     <div class="ml-1">
                         <h2>{{ commentsNum }}</h2>
                     </div>

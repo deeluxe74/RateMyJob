@@ -28,6 +28,9 @@ body, html {
     font-family: 'Junior', fantasy;
     background-color: #8B0026;
     width: 100vw;
+    
+}::-webkit-scrollbar {
+    display: none;
 }
 
 body {
@@ -52,6 +55,19 @@ p {
     font-size: 0.9rem;
     font-family: 'Hobo Std', fantasy;
     margin: 0;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.hover {
+    transition: all 350ms ease-in;
+}
+.hover:hover {
+    transform: scale(1.15);
+    transform-origin: center;
+    opacity: 0.8;
 }
 
 .height-100 {
@@ -172,6 +188,61 @@ p {
         transform: translateY(0vh);
         filter: blur(0px);
     }
+}
+
+.jello:hover {
+	animation: jello 1.5s both infinite;
+}
+.heartbeat:hover {
+	animation: heartbeat 1.5s ease-in-out infinite both;
+}
+
+@keyframes heartbeat {
+  from {
+    transform: scale(1);
+    transform-origin: center center;
+    animation-timing-function: ease-out;
+  }
+  10% {
+    transform: scale(0.91);
+    animation-timing-function: ease-in;
+  }
+  17% {
+    transform: scale(0.98);
+    animation-timing-function: ease-out;
+  }
+  33% {
+    transform: scale(0.87);
+    animation-timing-function: ease-in;
+  }
+  45% {
+    transform: scale(1);
+    animation-timing-function: ease-out;
+  }
+}
+
+@keyframes jello {
+  0% {
+    transform: scale3d(1, 1, 1);
+  }
+  30% {
+    transform: scale3d(0.75, 1.25, 1);
+  }
+  40% {
+    transform: scale3d(1.25, 0.75, 1);
+  }
+  50% {
+    transform: scale3d(0.85, 1.15, 1);
+  }
+  65% {
+    transform: scale3d(1.05, 0.95, 1);
+  }
+  75% {
+    transform: scale3d(0.95, 1.05, 1);
+  }
+  100% {
+    transform: scale3d(1, 1, 1);
+  }
 }
 
 /* Media Queries */

@@ -14,7 +14,7 @@ export default {
 
 <style scoped>
 img {
-    width: 30vw;
+    width: 30%;
     animation: move 4.5s infinite ease-in;
 }
 
@@ -34,8 +34,8 @@ h2 {
     position: fixed;
     z-index: 100;
     top: 0;
-    left: 0;
-    width: 100vw;
+    width: 100%;
+    max-width: 480px;
     height: 100%;
 }
 
