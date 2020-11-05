@@ -8,7 +8,7 @@
         <div class="frame-illustration bg-pink">
             <img @click="closeWindow" class="close-svg" src="/img/svg/close.svg" alt="Retour a la liste">
             <transition name="slide" mode="out-in">
-                <img @click="openPicture(picture)" v-if="active === index" v-for="(picture, index) in pictures" class="illustation" :src="pictures[index].url" alt="Illustration de la demande" :key="'picture' + index">
+                <img @click="openPicture(picture)" v-if="active === index" v-for="(picture, index) in pictures" class="illustation pointer" :src="pictures[index].url" alt="Illustration de la demande" :key="'picture' + index">
             </transition>
         </div>
         <div class="forme bg-black d-flex flex-row justify-content-between align-items-start">

@@ -51,7 +51,7 @@ export default {
             description: null,
             author: null,
             pictures: [],
-            postSend: true,
+            postSend: false,
             loadSend: false,
         }
     },
