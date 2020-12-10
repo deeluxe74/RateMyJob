@@ -19,7 +19,8 @@ De plus, les membres peuvent vous laisser des commentaires pour vous guider enco
 ### Installation sur votre système
 **Développé en Laravel et Vue.js (Javascript, PHP)** <br>
 
-Le projet peut être mis en place rapidement grâce à une commande, cela va installer tous les fichiers nécessaires à l'intérieur de nodes-modules :
+Le projet peut être mis en place rapidement grâce à une commande, cela va installer tous les fichiers nécessaires à l'intérieur 
+de nodes-modules :
 ```
 npm run install
 ```
@@ -42,7 +43,7 @@ N'oubliez pas de lancer Xampp et éditer le .env pour relier la base de données
 **Bonne nouvelle**, cette application est hébergée pour que vous puissiez la tester.<br>
 [betterchoice.noteatcookie.fr](betterchoice.noteatcookie.fr)
 
-**Ce projet est disponible avec des explications détaillées ainsi que des illustrations sur [mon site](https://www.rollet-raphael.com/project)**
+**Ce projet est disponible avec des explications détaillées ainsi que des illustrations sur [mon site](https://www.rollet-raphael.com/project).**
 
 **Ne manquer pas de me faire un retour sur le projet !**
 
